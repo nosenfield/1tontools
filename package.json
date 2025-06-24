@@ -16,8 +16,8 @@
         "email": "noah@1ton.games",
         "url": "https://1ton.games"
     },
-    "license": "MIT",
+    "license": "Proprietary",
     "dependencies": {
-        // Add UPM dependencies here, if any
+
     }
 }

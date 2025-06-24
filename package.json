@@ -1,0 +1,23 @@
+{
+    "name": "com.1ton.tools",
+    "displayName": "1TON Games Tooling",
+    "version": "1.0.0",
+    "unity": "2021.3",
+    "description": "A collection of utility scripts, editor extensions, and runtime systems used internally across all game projects.",
+    "keywords": [
+        "tools",
+        "editor",
+        "runtime",
+        "utilities",
+        "in-house"
+    ],
+    "author": {
+        "name": "1TON Games",
+        "email": "noah@1ton.games",
+        "url": "https://1ton.games"
+    },
+    "license": "MIT",
+    "dependencies": {
+        // Add UPM dependencies here, if any
+    }
+}

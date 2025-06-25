@@ -32,7 +32,7 @@ namespace OneTon.Utilities.ScriptableObjectHelpers.EnumGeneration
                              .Select(obj => obj.name)
                              .Distinct()
                              .OrderBy(name => name)
-                             .Select(SanitizeName)
+                             .Select(Utilities.SanitizeName)
                              .ToList();
 
             if (names.Count == 0)
@@ -47,7 +47,7 @@ namespace OneTon.Utilities.ScriptableObjectHelpers.EnumGeneration
             code.AppendLine("{");
             foreach (var name in names)
             {
-                int hash = GetDeterministicHashCode(name);
+                int hash = Utilities.GetDeterministicHashCode(name);
                 code.AppendLine($"    {name} = {hash},");
             }
             code.AppendLine("}");
@@ -57,30 +57,6 @@ namespace OneTon.Utilities.ScriptableObjectHelpers.EnumGeneration
             AssetDatabase.Refresh();
 
             Debug.Log($"[EnumGenerator] Generated enum {enumName} with {names.Count} entries.");
-        }
-
-        private static string SanitizeName(string name)
-        {
-            string safe = name.Replace(" ", "_").Replace("-", "_");
-            return char.IsDigit(safe[0]) ? "_" + safe : safe;
-        }
-
-        private static int GetDeterministicHashCode(string str)
-        {
-            // FNV-1a hash for stable 32-bit integer
-            unchecked
-            {
-                const int fnvPrime = 16777619;
-                int hash = (int)2166136261;
-
-                foreach (char c in str)
-                {
-                    hash ^= c;
-                    hash *= fnvPrime;
-                }
-
-                return hash;
-            }
         }
     }
 }

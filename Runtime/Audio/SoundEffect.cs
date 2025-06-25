@@ -8,33 +8,6 @@ using UnityEngine;
 
 namespace OneTon.Audio
 {
-    // /// <summary>
-    // /// The SoundEffectPlayRequest class represents an event 
-    // /// </summary>
-    // public class SoundEffectRequest
-    // {
-    //     public SoundEffectId SoundEffectId { get; }
-    //     public float InstanceVolume { get; }
-    //     public Transform Source { get; }
-    //     public Action<bool> ResultCallback { get; }
-
-
-    //     private SoundEffectRequest(SoundEffectId soundEffectId, float instanceVolume, Transform source)
-    //     {
-    //         SoundEffectId = soundEffectId;
-    //         InstanceVolume = instanceVolume;
-    //         Source = source;
-    //     }
-
-    //     public static AudioSourcePrefab CreateSoundEffect(SoundEffectId soundEffectId, float instanceVolume = 1f, Transform source = null)
-    //     {
-    //         AudioSourcePrefab audioSourceClone = null;
-    //         // AudioPlayer.CreateSoundEffectRequest.Invoke(new SoundEffectRequest(soundEffectId, instanceVolume, source), out audioSourceClone);
-    //         return audioSourceClone;
-    //     }
-    // }
-
-
     [CreateAssetMenu(fileName = "_NewSoundEffect.asset", menuName = "1ton/Audio/SoundEffect")]
     [GenerateEnum(outputPath: "Assets/Scripts/Generated/1ton/Enums/SoundEffectId.cs")]
     public class SoundEffect : ScriptableObject
@@ -89,30 +62,5 @@ namespace OneTon.Audio
         {
             ScriptableObjectSingleton<AudioPlayer>.Instance.TestSoundEffect(this);
         }
-
-        /*
-        // Asset naming enforcement for Enum conversion
-        */
-
-#if UNITY_EDITOR
-        private void OnValidate()
-        {
-            string assetPath = UnityEditor.AssetDatabase.GetAssetPath(this);
-            string assetName = System.IO.Path.GetFileNameWithoutExtension(assetPath);
-            string cleanName = GetSanitizedName(assetName);
-
-            if (assetName != cleanName)
-            {
-                Debug.LogWarning($"SoundEffect '{assetName}' has invalid characters for enum naming. Consider renaming to '{cleanName}'");
-            }
-        }
-
-        private string GetSanitizedName(string name)
-        {
-            string sanitized = name.Replace(" ", "_").Replace("-", "_");
-            if (char.IsDigit(sanitized[0])) sanitized = "_" + sanitized;
-            return sanitized;
-        }
-#endif
     }
 }

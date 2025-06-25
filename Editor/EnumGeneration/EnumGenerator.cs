@@ -5,8 +5,9 @@ using UnityEngine;
 using System.Linq;
 using System.Text;
 using System.IO;
+using OneTon.Utilities;
 
-namespace OneTon.Utilities.ScriptableObjectHelpers.EnumGeneration
+namespace OneTon.EnumGeneration
 {
     public static class EnumGenerator
     {
@@ -32,7 +33,7 @@ namespace OneTon.Utilities.ScriptableObjectHelpers.EnumGeneration
                              .Select(obj => obj.name)
                              .Distinct()
                              .OrderBy(name => name)
-                             .Select(Utilities.SanitizeName)
+                             .Select(Utilities.Utilities.SanitizeName)
                              .ToList();
 
             if (names.Count == 0)
@@ -47,7 +48,7 @@ namespace OneTon.Utilities.ScriptableObjectHelpers.EnumGeneration
             code.AppendLine("{");
             foreach (var name in names)
             {
-                int hash = Utilities.GetDeterministicHashCode(name);
+                int hash = Utilities.Utilities.GetDeterministicHashCode(name);
                 code.AppendLine($"    {name} = {hash},");
             }
             code.AppendLine("}");

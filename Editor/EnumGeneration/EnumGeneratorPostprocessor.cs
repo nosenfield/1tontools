@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace OneTon.Utilities.ScriptableObjectHelpers.EnumGeneration
+namespace OneTon.EnumGeneration
 {
     public class EnumGeneratorPostprocessor : AssetPostprocessor
     {

@@ -5,13 +5,14 @@ using OneTon.Utilities;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
+using OneTon.Logging;
 
 namespace OneTon.Audio
 {
     [CreateAssetMenu(fileName = "_AudioPlayer.asset", menuName = "1ton/Audio/AudioPlayer")]
     public class AudioPlayer : ScriptableObject
     {
-        private static Logging.Logger logger = new();
+        private static LogService logger = LogService.Get<AudioPlayer>();
         private static Dictionary<int, SoundEffect> sfxDictionary; // auto-populated dictionary
         [SerializeField] private GameObject audioParent; // a parent transform for the audio source clones. leave blank to auto-generate 
         [SerializeField] private List<SoundEffect> soundEffects; // sound effects for use in the project
@@ -79,7 +80,7 @@ namespace OneTon.Audio
             }
 
             AudioSourcePrefab clone = GameObject.Instantiate(audioSourcePrefab, audioParent.transform).GetComponentInChildren<AudioSourcePrefab>();
-            clone.name = $"{clone.name} {audioSourcePool.Count}";
+            clone.name = $"{clone.name} {audioSourcePool.CreatedCount}";
             return clone;
         }
 

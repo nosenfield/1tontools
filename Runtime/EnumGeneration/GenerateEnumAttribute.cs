@@ -1,6 +1,6 @@
 using System;
 
-namespace OneTon.Utilities.ScriptableObjectHelpers.EnumGeneration
+namespace OneTon.EnumGeneration
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]
     public sealed class GenerateEnumAttribute : Attribute

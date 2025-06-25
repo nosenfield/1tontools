@@ -4,7 +4,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-namespace OneTon.Utilities.ScriptableObjectHelpers.EnumGeneration
+namespace OneTon.EnumGeneration
 {
     public static class EnumGenerationMenu
     {

@@ -1,6 +1,8 @@
 using System;
 using OneTon.Utilities;
-using OneTon.Utilities.ScriptableObjectHelpers.EnumGeneration;
+using OneTon.ScriptableObjectHelpers;
+using OneTon.EnumGeneration;
+using OneTon.Logging;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -37,7 +39,7 @@ namespace OneTon.Audio
     [GenerateEnum(outputPath: "Assets/Scripts/Generated/1ton/Enums/SoundEffectId.cs")]
     public class SoundEffect : ScriptableObject
     {
-        private static Logging.Logger logger = new();
+        private static LogService logger = LogService.Get<SoundEffect>();
         [SerializeField] private AudioClip[] clips;
         [SerializeField] private bool randomize;
         [SerializeField, Range(0f, 1f)] private float masterVolume = 1f;

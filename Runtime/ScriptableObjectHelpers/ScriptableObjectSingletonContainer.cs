@@ -11,7 +11,7 @@ using UnityEngine;
 /// Based on https://www.youtube.com/watch?v=VBA1QCoEAX4
 /// </summary>
 
-namespace OneTon.Utilities
+namespace OneTon.ScriptableObjectHelpers
 {
     /// <summary>
     /// ScriptableObjectSingletonContainer acts as the instance identifier for a scriptable object wishing to be accessed like a singleton

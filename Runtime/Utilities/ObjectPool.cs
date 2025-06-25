@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using OneTon.Logging;
 
 namespace OneTon.Utilities
 {
     public class ObjectPool<T>
     {
-        private static readonly OneTon.Logging.Logger logger = new();
+        private static readonly LogService logger = LogService.Get<ObjectPool<T>>(LogLevel.Warn);
         private readonly Func<T> creationDelegate;
         Queue<T> pool;
         HashSet<T> hashSet;

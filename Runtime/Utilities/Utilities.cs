@@ -15,6 +15,7 @@ namespace OneTon.Utilities
 {
     public static class Utilities
     {
+        private static readonly LogService logger = LogService.GetStatic(typeof(Utilities));
         private static Regex emailRegex = new Regex(@"[\w-\.]+@([\w-]+\.)+[\w-]");
         public static int CompareChildIndex<T>(T a, T b) where T : MonoBehaviour
         {
@@ -82,8 +83,6 @@ namespace OneTon.Utilities
 
         public static bool IsValidEmail(string email)
         {
-            DefaultLogger.Instance.LogTrace();
-
             bool valid = true;
             try
             {
@@ -94,9 +93,8 @@ namespace OneTon.Utilities
                 valid = false;
             }
 
-            DefaultLogger.Instance.Log(LogLevel.DEBUG, $"Email validation test 1: {email}, {valid.ToString()}");
-
-            DefaultLogger.Instance.Log(LogLevel.DEBUG, $"Email validation test 2: {email}, {emailRegex.IsMatch(email)}");
+            logger.Debug($"Email validation test 1: {email}, {valid.ToString()}");
+            logger.Debug($"Email validation test 2: {email}, {emailRegex.IsMatch(email)}");
 
             return (valid ? emailRegex.IsMatch(email) : valid);
         }
@@ -115,7 +113,7 @@ namespace OneTon.Utilities
 
                 if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
                 {
-                    Debug.LogError($"Error getting {url}: {request.error}");
+                    logger.Error($"Error getting {url}: {request.error}");
                 }
                 else
                 {

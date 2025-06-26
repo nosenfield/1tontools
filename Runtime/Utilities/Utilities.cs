@@ -5,7 +5,6 @@ using System.ComponentModel;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using OneTon.Animation;
 using OneTon.Logging;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -74,11 +73,6 @@ namespace OneTon.Utilities
             }
 
             return name;
-        }
-
-        public static void SetGameObjectToScale(GameObject gameobject, Vector3 startingScale, Vector3 targetScale, float percentComplete, EasingFunction.Function easingFunc)
-        {
-            gameobject.transform.localScale = new Vector3(easingFunc(startingScale.x, targetScale.x, percentComplete), easingFunc(startingScale.y, targetScale.y, percentComplete), gameobject.transform.localScale.z);
         }
 
         public static bool IsValidEmail(string email)

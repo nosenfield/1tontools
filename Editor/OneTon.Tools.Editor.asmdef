@@ -1,0 +1,12 @@
+{
+    "name": "OneTon.Tools.Editor",
+    "rootNamespace": "OneTon",
+    "references": [
+        "OneTon.Tools.Runtime"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}

@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using OneTon.Logging;
-using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -17,7 +14,6 @@ namespace OneTon.OverlaySystem
         [SerializeField] private SceneReference popupParentScene = null;
         private Transform parentTransform = null;
         private static bool initializationCalled = false;
-        private Task initializationTask;
         [SerializeField] OverlayPrefabDatabase overlayPrefabDatabase;
 
         /// <summary>
@@ -26,7 +22,6 @@ namespace OneTon.OverlaySystem
         private async Task Initialize()
         {
             logger.Trace();
-            logger.Debug($"initializationCalled: {initializationCalled}");
 
             string sceneName = popupParentScene.SceneName;
             Scene scene = SceneManager.GetSceneByName(sceneName);

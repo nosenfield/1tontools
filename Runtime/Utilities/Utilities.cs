@@ -12,9 +12,9 @@ using UnityEngine.UI;
 
 namespace OneTon.Utilities
 {
-    public static class Utilities
+    public static class Utils
     {
-        private static readonly LogService logger = LogService.GetStatic(typeof(Utilities));
+        private static readonly LogService logger = LogService.GetStatic(typeof(Utils));
         private static Regex emailRegex = new Regex(@"[\w-\.]+@([\w-]+\.)+[\w-]");
         public static int CompareChildIndex<T>(T a, T b) where T : MonoBehaviour
         {

@@ -37,7 +37,7 @@ namespace OneTon.Audio
             {
                 if (soundEffect == null) continue;
 
-                int soundEffectId = Utilities.Utilities.GetDeterministicHashCode(Utilities.Utilities.SanitizeName(soundEffect.name));
+                int soundEffectId = Utilities.Utils.GetDeterministicHashCode(Utilities.Utils.SanitizeName(soundEffect.name));
                 if (!sfxDictionary.ContainsKey(soundEffectId))
                 {
                     sfxDictionary[soundEffectId] = soundEffect;

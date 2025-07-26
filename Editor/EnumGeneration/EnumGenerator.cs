@@ -35,7 +35,7 @@ namespace OneTon.EnumGeneration
             .Select(obj =>
             {
                 string originalName = obj.name;
-                string sanitizedName = Utilities.Utilities.SanitizeName(originalName);
+                string sanitizedName = Utilities.Utils.SanitizeName(originalName);
                 if (originalName != sanitizedName)
                     logger.Warn($"Sanitized {enumName}.{sanitizedName}. Rename {originalName} asset for parity.");
                 return sanitizedName;
@@ -58,7 +58,7 @@ namespace OneTon.EnumGeneration
             code.AppendLine("{");
             foreach (var name in names)
             {
-                int hash = Utilities.Utilities.GetDeterministicHashCode(name);
+                int hash = Utilities.Utils.GetDeterministicHashCode(name);
                 code.AppendLine($"    {name} = {hash},");
             }
             code.AppendLine("}");

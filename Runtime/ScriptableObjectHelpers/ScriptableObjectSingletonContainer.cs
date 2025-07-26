@@ -60,44 +60,60 @@ namespace OneTon.ScriptableObjectHelpers
     /// The purpose is to give a more flexible way to turn a scriptable object into a single accesible instance that:
     /// - doesn't require the calling script to have a reference
     /// - doesn't prevent multiple instantiation of the object in the event we change our mind about using a singleton
-    /// - doesn't require code changes in the event we change out mind about using a singleton
+    /// - doesn't require code changes in the event we change our mind about using a singleton
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public sealed class ScriptableObjectSingleton<T> where T : ScriptableObject
     {
         static T _instance = null;
+
         public static T Instance
         {
             get
             {
-                if (!_instance)
+                if (_instance != null)
                 {
-                    List<ScriptableObjectSingletonContainer> containers = new(Resources.FindObjectsOfTypeAll<ScriptableObjectSingletonContainer>());
-                    for (int i = containers.Count - 1; i >= 0; i--)
-                    {
-                        if (containers[i].MasterInstance.GetType() != typeof(T))
-                        {
-                            containers.RemoveAt(i);
-                        }
-                    }
+                    return _instance;
+                }
 
-                    if (containers.Count == 1)
+                // Try to find it in the editor (e.g. after recompilation or domain reload)
+                List<ScriptableObjectSingletonContainer> containers = new(Resources.FindObjectsOfTypeAll<ScriptableObjectSingletonContainer>());
+                for (int i = containers.Count - 1; i >= 0; i--)
+                {
+                    if (containers[i].MasterInstance == null || containers[i].MasterInstance.GetType() != typeof(T))
                     {
-                        Debug.Log($"Found one container with instance of type {containers[0].MasterInstance.GetType()}");
-                        _instance = containers[0].MasterInstance as T;
-                        if (_instance is INeedsInitialization)
-                        {
-                            (_instance as INeedsInitialization).Initialize();
-                        }
+                        containers.RemoveAt(i);
                     }
-                    else if (containers.Count == 0)
-                    {
-                        throw new($"ScriptableObjectSingletonContainer with instance of type {typeof(T)} does not exist.");
-                    }
-                    else if (containers.Count > 1)
-                    {
-                        throw new($"More than one ScriptableObjectSingletonContainers with instance of type {typeof(T)} exists.");
-                    }
+                }
+
+                if (containers.Count == 1)
+                {
+                    Debug.Log($"[Singleton<{typeof(T).Name}>] Found singleton via editor memory or scene reference.");
+                    _instance = containers[0].MasterInstance as T;
+                }
+                else if (containers.Count > 1)
+                {
+                    throw new($"More than one ScriptableObjectSingletonContainers with instance of type {typeof(T)} exists.");
+                }
+
+                // Fallback: load from Resources
+                if (_instance == null)
+                {
+                    string path = $"{typeof(T).Name}_SingletonContainer";
+                    var container = Resources.Load<ScriptableObjectSingletonContainer>(path);
+
+                    if (container == null || container.MasterInstance == null)
+                        throw new Exception($"[Singleton<{typeof(T).Name}] No ScriptableObjectSingletonContainer found at Resources/{path}.asset");
+
+                    _instance = container.MasterInstance as T;
+                    if (_instance == null)
+                        throw new Exception($"[Singleton<{typeof(T).Name}] Loaded container's MasterInstance was not of expected type {typeof(T)}.");
+                }
+
+                // Optional initialization hook
+                if (_instance is INeedsInitialization needsInit)
+                {
+                    needsInit.Initialize();
                 }
 
                 return _instance;

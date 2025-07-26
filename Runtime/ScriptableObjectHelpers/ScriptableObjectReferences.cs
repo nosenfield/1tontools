@@ -9,6 +9,6 @@ namespace OneTon.Utilities.ScriptableObjectHelpers
     /// </summary>
     public class ScriptableOjectReferences : MonoBehaviour
     {
-        [SerializeField] private ScriptableObject[] objects;
+        [SerializeField] private ScriptableObjectSingletonContainer[] singletonContainers;
     }
 }

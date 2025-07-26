@@ -1,7 +1,9 @@
 {
     "name": "OneTon.Tools.Runtime",
     "rootNamespace": "OneTon",
-    "references": [],
+    "references": [
+        "Unity.RenderPipelines.Universal.Runtime"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false

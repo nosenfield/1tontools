@@ -18,6 +18,8 @@
     },
     "license": "Proprietary",
     "dependencies": {
-        "com.unity.nuget.newtonsoft-json": "3.2.1"
+        "com.unity.nuget.newtonsoft-json": "3.2.1",
+        "com.unity.render-pipelines.universal": "17.0.3",
+        "com.eflatun.scenereference": "https://github.com/eflatun/scene-reference.git#4.1.1"
     }
 }

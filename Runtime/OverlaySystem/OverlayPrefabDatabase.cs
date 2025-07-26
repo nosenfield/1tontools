@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace OneTon.OverlaySystem
 {
-    [CreateAssetMenu(menuName = "1ton/OverlaySystem/OverlayPrefabDatabase")]
+    [CreateAssetMenu(fileName = "_OverlayPrefabDatabase.asset", menuName = "1ton/OverlaySystem/OverlayPrefabDatabase")]
     public class OverlayPrefabDatabase : ScriptableObject
     {
         [SerializeField]

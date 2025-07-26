@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace OneTon.Utilities.ScriptableObjectHelpers
+namespace OneTon.ScriptableObjectHelpers
 {
     /// <summary>
     /// Implement INeedsInitialization to perform a one-time setup function the first time your SomeClass : ScriptableObject

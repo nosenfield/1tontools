@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-namespace OneTon.Utilities.ScriptableObjectHelpers
+namespace OneTon.ScriptableObjectHelpers
 {
     /// <summary>
     /// ScriptableOjectReferences give us a way to address the compile-time dependency of ScriptableObjects

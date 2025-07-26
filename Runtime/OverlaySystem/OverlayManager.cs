@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 
 namespace OneTon.OverlaySystem
 {
-    [CreateAssetMenu(fileName = "OverlayManager.asset", menuName = "1ton/OverlaySystem/OverlayManager")]
+    [CreateAssetMenu(fileName = "_OverlayManager.asset", menuName = "1ton/OverlaySystem/OverlayManager")]
     public class OverlayManager : ScriptableObject
     {
         private static OneTon.Logging.Logger logger = new();

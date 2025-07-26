@@ -1,3 +1,6 @@
+using System;
+using System.Threading.Tasks;
+
 namespace OneTon.OverlaySystem
 {
     public abstract class OverlayWithResult<T> : OverlayBase

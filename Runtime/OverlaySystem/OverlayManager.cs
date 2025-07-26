@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using OneTon.Dictionaries;
+using OneTon.Logging;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,7 +12,8 @@ namespace OneTon.OverlaySystem
     [CreateAssetMenu(fileName = "_OverlayManager.asset", menuName = "1ton/OverlaySystem/OverlayManager")]
     public class OverlayManager : ScriptableObject
     {
-        private static OneTon.Logging.Logger logger = new();
+        private static readonly LogService logger = LogService.Get<OverlayManager>();
+
         [SerializeField] private SceneReference popupParentScene = null;
         private Transform parentTransform = null;
         private static bool initializationCalled = false;
@@ -25,7 +26,7 @@ namespace OneTon.OverlaySystem
         private async Task Initialize()
         {
             logger.Trace();
-            logger.Log($"initializationCalled: {initializationCalled}");
+            logger.Debug($"initializationCalled: {initializationCalled}");
 
             string sceneName = popupParentScene.SceneName;
             Scene scene = SceneManager.GetSceneByName(sceneName);
@@ -50,7 +51,7 @@ namespace OneTon.OverlaySystem
             AsyncOperation op = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
             await TaskCompletionSourceFromOperation(op);
 
-            logger.Log($"{sceneName} load complete");
+            logger.Debug($"{sceneName} load complete");
 
             scene = SceneManager.GetSceneByName(sceneName);
             parentTransform = FindParentCanvasTransform(scene);

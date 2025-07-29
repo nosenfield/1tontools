@@ -13,7 +13,7 @@ namespace OneTon.Audio
     {
         private static LogService logger = LogService.Get<AudioPlayer>();
         private static Dictionary<int, SoundEffect> sfxDictionary; // auto-populated dictionary
-        [SerializeField] private GameObject audioParent; // a parent transform for the audio source clones. leave blank to auto-generate 
+        [SerializeField][ReadOnly] private GameObject audioParent; // a parent transform for the audio source clones. will auto-generate if not provided via SetNewAudioParent
         [SerializeField] private List<SoundEffect> soundEffects; // sound effects for use in the project
         [SerializeField] GameObject audioSourcePrefab;
         ObjectPool<AudioSourcePrefab> audioSourcePool;
@@ -75,22 +75,37 @@ namespace OneTon.Audio
         {
             if (audioParent == null)
             {
-                audioParent = new GameObject("_AudioParent");
+                audioParent = new GameObject("[Generated]_AudioParent");
             }
 
             AudioSourcePrefab clone = GameObject.Instantiate(audioSourcePrefab, audioParent.transform).GetComponentInChildren<AudioSourcePrefab>();
-            clone.name = $"{clone.name} {audioSourcePool.CreatedCount}";
+            clone.name = $"{clone.name} {audioSourcePool?.CreatedCount}";
             return clone;
+        }
+
+        /// <summary> If auto-generation of the audio parent is not desired, you can explicitly provide a parent</summary>
+        /// <param name="newParent">A gameobject that will be used to parent AudioSource clones for grouping/organization</param>
+        /// <returns>Returns the original parent, if any</returns>
+        public GameObject SetNewAudioParent(GameObject newParent)
+        {
+            GameObject originalParent = audioParent;
+            if (originalParent != null)
+            {
+                logger.Debug($"Replacing audioParent {originalParent.name} with {newParent.name}");
+            }
+
+            audioParent = newParent;
+            return originalParent;
         }
 
         /// <param name="soundEffectId">the identifier in the generated SoundEffectId enum</param>
         /// <param name="instanceVolume">The volume multiplier for this instance</param>
         /// <param name="location">A world-location at which to play the effect (for spatial audio). If null, will play "everywhere" via non-spatial audio</param>
         /// <returns>Returns the AudioSourcePrefab component attached to the cloned gameobject</returns>
-        public AudioSourcePrefab PlaySoundEffect(int soundEffectId, float instanceVolume = 1f, Transform sourceTransform = null)
+        public AudioSourcePrefab PlaySoundEffect(int soundEffectId, float instanceVolume = 1f, Vector3? location = null)
         {
             SoundEffect soundEffect = sfxDictionary[soundEffectId];
-            return PlaySoundEffect(soundEffect, instanceVolume, sourceTransform?.position);
+            return PlaySoundEffect(soundEffect, instanceVolume, location);
         }
 
         /// <param name="soundEffect">a SoundEffect scriptable object</param>
@@ -99,8 +114,6 @@ namespace OneTon.Audio
         /// <returns>Returns the AudioSourcePrefab component attached to the cloned gameobject</returns>
         public AudioSourcePrefab PlaySoundEffect(SoundEffect soundEffect, float instanceVolume = 1f, Vector3? location = null)
         {
-            // the location can be "here" or "everywhere". Passing a null location plays "everywhere" and uses non-spatial audio
-
             AudioSourcePrefab audioSource = GetAudioSource();
             bool isSpatial = location != null;
             if (isSpatial)
@@ -112,18 +125,27 @@ namespace OneTon.Audio
             return audioSource;
         }
 
+        private void AudioCompleteHandler(AudioSourcePrefab audioSource)
+        {
+            audioSourcePool.AddObjectToPool(audioSource);
+            audioSource.transform.SetParent(audioParent.transform);
+        }
+
         /// <summary>
         /// Works with the SoundEffect's "Test" button to enable easier tuning of SoundEfect instances
         /// </summary>
         /// <param name="soundEffect"></param>
         internal void TestSoundEffect(SoundEffect soundEffect)
         {
-            GetAudioSource().Play(soundEffect, 1f, false, (AudioSourcePrefab audioSource) => { DestroyImmediate(audioSource.gameObject); });
-        }
-
-        private void AudioCompleteHandler(AudioSourcePrefab audioSource)
-        {
-            audioSourcePool.AddObjectToPool(audioSource);
+            CreateAudioSourcePrefabClone().Play(soundEffect, 1f, false, (AudioSourcePrefab audioSource) => {
+                if (audioSource.transform.parent == audioParent && audioParent.transform.childCount == 1)
+            {
+                DestroyImmediate(audioParent);
+            }
+                else{
+                    DestroyImmediate(audioSource.gameObject);
+                }
+                });
         }
     }
 

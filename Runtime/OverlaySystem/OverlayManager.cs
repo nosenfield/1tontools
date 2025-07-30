@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using OneTon.Logging;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Eflatun.SceneReference;
+
 
 namespace OneTon.OverlaySystem
 {
@@ -23,7 +25,7 @@ namespace OneTon.OverlaySystem
         {
             logger.Trace();
 
-            string sceneName = popupParentScene.SceneName;
+            string sceneName = popupParentScene.Name;
             Scene scene = SceneManager.GetSceneByName(sceneName);
 
             if (initializationCalled)
@@ -66,21 +68,29 @@ namespace OneTon.OverlaySystem
                 .FirstOrDefault()?.transform;
         }
 
-        public async Task<TOverlay> ShowOverlay<TOverlay>(GameObject prefab) where TOverlay : OverlayBase
+        public async Task<TOverlay> ShowOverlay<TOverlay>(GameObject prefab, bool initializeAndShow = true) where TOverlay : OverlayBase
         {
+            logger.Trace();
             await Initialize();
             var instance = Instantiate(prefab, parentTransform).GetComponent<TOverlay>();
-            instance.Initialize();
-            await instance.ShowAsync();
+            if (initializeAndShow)
+            {
+                instance.Initialize();
+                await instance.ShowAsync();
+            }
             return instance;
         }
 
-        public async Task<(TOverlay overlay, Task<TResult> resultTask)> ShowOverlayWithResult<TOverlay, TResult>(GameObject prefab) where TOverlay : OverlayWithResult<TResult>
+        public async Task<(TOverlay overlay, Task<TResult> resultTask)> ShowOverlayWithResult<TOverlay, TResult>(GameObject prefab, bool initializeAndShow = true) where TOverlay : OverlayWithResult<TResult>
         {
+            logger.Trace();
             await Initialize();
             var instance = Instantiate(prefab, parentTransform).GetComponent<TOverlay>();
-            instance.Initialize();
-            await instance.ShowAsync();
+            if (initializeAndShow)
+            {
+                instance.Initialize();
+                await instance.ShowAsync();
+            }
             return (instance, instance.WaitForResult());
         }
 

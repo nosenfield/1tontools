@@ -156,5 +156,16 @@ namespace OneTon.Utilities
                 return hash;
             }
         }
+
+        public static bool TryGetValueAs<T>(this Dictionary<string, object> dict, string key, out T value)
+        {
+            if (dict.TryGetValue(key, out var raw) && raw is T castValue)
+            {
+                value = castValue;
+                return true;
+            }
+            value = default;
+            return false;
+        }
     }
 }

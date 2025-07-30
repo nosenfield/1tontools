@@ -2,7 +2,8 @@
     "name": "OneTon.Tools.Runtime",
     "rootNamespace": "OneTon",
     "references": [
-        "Unity.RenderPipelines.Universal.Runtime"
+        "Unity.RenderPipelines.Universal.Runtime",
+        "Eflatun.SceneReference"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

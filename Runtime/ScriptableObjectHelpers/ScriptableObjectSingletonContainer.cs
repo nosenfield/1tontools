@@ -94,6 +94,10 @@ namespace OneTon.ScriptableObjectHelpers
                 {
                     throw new($"More than one ScriptableObjectSingletonContainers with instance of type {typeof(T)} exists.");
                 }
+                else if (containers.Count == 0)
+                {
+                    Debug.Log($"[Singleton<{typeof(T).Name}>] not loaded in editor memory.");
+                }
 
                 // Fallback: load from Resources
                 if (_instance == null)

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
@@ -166,6 +167,22 @@ namespace OneTon.Utilities
             }
             value = default;
             return false;
+        }
+
+        public static string SafePathCombine(params string[] parts)
+        {
+            if (parts == null || parts.Length == 0)
+                return string.Empty;
+
+            for (int i = 1; i < parts.Length; i++)
+            {
+                if (Path.IsPathRooted(parts[i]))
+                {
+                    parts[i] = parts[i].TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+                }
+            }
+
+            return Path.Combine(parts);
         }
     }
 }

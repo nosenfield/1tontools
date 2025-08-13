@@ -1,11 +1,14 @@
 using System;
 using System.Threading.Tasks;
+using OneTon.ScriptableObjectHelpers;
 using UnityEngine;
 
 namespace OneTon.OverlaySystem
 {
     public abstract class OverlayBase : MonoBehaviour
     {
+        public virtual bool UseUniversalDimmer => true; // override to use custom dimming layer with this overlay
+
         /// <summary>
         /// Called immediately after instantiation. Used for dependency injection.
         /// </summary>
@@ -26,14 +29,18 @@ namespace OneTon.OverlaySystem
         }
 
         /// <summary>
-        /// Optional hide/cleanup hook.
+        /// Entrypoint for overlay dismissal. Dismisses the overlay via the OverlayManager
         /// </summary>
-        public virtual void Dismiss()
+        public void Dismiss()
         {
-            Cleanup();
+            ScriptableObjectSingleton<OverlayManager>.Instance.DismissOverlay(this);
         }
 
-        protected virtual void Cleanup()
+        /// <summary>
+        /// You can override this method with any additional teardown requirements.
+        /// Be sure to include super.Teardown() or Destroy(gameObject) in your override.
+        /// </summary>
+        internal virtual async Task Teardown()
         {
             Destroy(gameObject);
         }

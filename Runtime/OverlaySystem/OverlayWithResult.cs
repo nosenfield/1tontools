@@ -28,7 +28,7 @@ namespace OneTon.OverlaySystem
                 return;
 
             _tcs.TrySetResult(result);
-            Cleanup();
+            Dismiss();
         }
 
         protected void Cancel()
@@ -37,7 +37,7 @@ namespace OneTon.OverlaySystem
                 return;
 
             _tcs.TrySetCanceled();
-            Cleanup();
+            Dismiss();
         }
 
         protected void Fail(Exception ex)
@@ -46,7 +46,7 @@ namespace OneTon.OverlaySystem
                 return;
 
             _tcs.TrySetException(ex);
-            Cleanup();
+            Dismiss();
         }
     }
 }

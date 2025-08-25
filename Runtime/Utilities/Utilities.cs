@@ -76,6 +76,11 @@ namespace OneTon.Utilities
             return name;
         }
 
+        public static Vector3 EaseVector3(Vector3 original, Vector3 target, float percentComplete, EasingFunction.Function easingFunc)
+        {
+            return new Vector3(easingFunc(original.x, target.x, percentComplete), easingFunc(original.y, target.y, percentComplete), easingFunc(original.z, target.z, percentComplete));
+        }
+
         public static bool IsValidEmail(string email)
         {
             bool valid = true;

@@ -20,7 +20,7 @@ namespace OneTon.ScriptableObjectHelpers
     /// Note: This object must be loaded into RAM this session in order to be found by the ScriptableObjectSingleton<T>.Instance call.
     /// Loading to RAM can be achieved by being referenced in a loaded scene or clicking on the scriptable object in the Project View.
     /// </summary>
-    [CreateAssetMenu(fileName = "_ScriptableObjectSingletonContainer.asset", menuName = "1ton/ScriptableObjectHelpers/ScriptableObjectSingletonContainer")]
+    [CreateAssetMenu(fileName = "_ScriptableObjectSingletonContainer.asset", menuName = "1ton/ScriptableObjectHelpers/SOClass_SingletonContainer")]
     public class ScriptableObjectSingletonContainer : ScriptableObject
     {
         [SerializeField] private ScriptableObject masterInstance;

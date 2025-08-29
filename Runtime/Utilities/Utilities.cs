@@ -99,14 +99,20 @@ namespace OneTon.Utilities
             return (valid ? emailRegex.IsMatch(email) : valid);
         }
 
-        public static void SetSpriteFromURL(string imageUrl, Image image)
-        {
-            // TODO
-            // Add Specify whether the image should be cached against the imageURL
-            ///
-            image.StartCoroutine(SetSpriteFromURLCoRoutine(imageUrl));
+        public static Dictionary<string, Sprite> cachedImages = new();
 
-            IEnumerator SetSpriteFromURLCoRoutine(string url)
+        public static void SetSpriteFromURL(string imageUrl, Image image, bool useCache = true)
+        {
+            if (useCache && cachedImages.ContainsKey(imageUrl))
+            {
+                cachedImages.TryGetValue(imageUrl, out Sprite sprite);
+                image.sprite = sprite;
+                return;
+            }
+
+            image.StartCoroutine(Routine(imageUrl));
+
+            IEnumerator Routine(string url)
             {
                 UnityWebRequest request = UnityWebRequestTexture.GetTexture(url);
                 yield return request.SendWebRequest();
@@ -120,6 +126,7 @@ namespace OneTon.Utilities
                     Texture2D texture = ((DownloadHandlerTexture)request.downloadHandler).texture;
                     Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
                     image.sprite = sprite;
+                    cachedImages.TryAdd(imageUrl, sprite);
                 }
             }
         }
